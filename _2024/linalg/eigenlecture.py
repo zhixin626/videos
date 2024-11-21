@@ -1,6 +1,7 @@
 from manim_imports_ext import *
 from _2021.matrix_exp import *
 import matplotlib.pyplot as plt
+from sympy.polys.domains import rationalfield
 
 
 def get_intensity_colors(values, cmap_name='viridis'):
@@ -317,13 +318,18 @@ class VectorFieldSolution(InteractiveScene):
         self.play(ShowCreation(eigenlines))
         self.wait(10)
 
-
+class MyNumberPlane(NumberPlane):
+    def set_faded_line_ratio(self,ratio=1):
+        self.faded_line_ratio=ratio
+        self.init_background_lines()
+        return self
 class Transformation(InteractiveScene):
     def construct(self):
         # Apply matrix
         mat = np.array([[1, 2], [3, 1]])
 
-        ghost_plane = NumberPlane(faded_line_ratio=0)
+        ghost_plane = MyNumberPlane(faded_line_ratio=0)
+        self.add(ghost_plane)
         ghost_plane.set_stroke(GREY, 1)
         plane = self.get_plane()
         basis = VGroup(
