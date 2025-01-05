@@ -27,8 +27,8 @@ def get_sinc_tex(k=1):
     return Rf"{{\sin(x {div_k}) \over x {div_k}}}"
 
 
-def get_multi_sinc_integral(ks=[1], dots_at=None, rhs="", insertion=""):
-    result = OldTex(
+def get_multi_sinc_integral(ks=[1], dots_at=None, rhs="", insertion=" "):
+    result = Tex(
         R"\int_{-\infty}^\infty",
         insertion,
         *(
@@ -37,21 +37,38 @@ def get_multi_sinc_integral(ks=[1], dots_at=None, rhs="", insertion=""):
         ),
         "dx",
         rhs,
+        t2c = {
+            R"\sin": BLUE,
+            "x / 3": TEAL,
+            "x / 5": GREEN_B,
+            "x / 7": GREEN_C,
+            "x / 9": interpolate_color(GREEN, YELLOW, 1 / 3),
+            "x / 11": interpolate_color(GREEN, YELLOW, 2 / 3),
+            "x / 13": YELLOW,
+            "x / 15": RED_B,
+        }
     )
-    t2c = {
-        R"\sin": BLUE,
-        "x / 3": TEAL,
-        "x / 5": GREEN_B,
-        "x / 7": GREEN_C,
-        "x / 9": interpolate_color(GREEN, YELLOW, 1 / 3),
-        "x / 11": interpolate_color(GREEN, YELLOW, 2 / 3),
-        "x / 13": YELLOW,
-        "x / 15": RED_B,
-    }
-    for tex, color in t2c.items():
-        result.set_color_by_tex(tex, color)
+    # for tex, color in t2c.items():
+    #     result.set_color_by_tex(tex, color)
     return result
 
+class test(InteractiveScene):
+    def construct(self):
+        # init
+        frame=self.frame
+        # start
+        tex1=Tex(R"\int_{-\infty}^\infty"," ",R"\sin(x) \over x",'dx',R"=\pi")
+        tex2=Tex(R"\int_{-\infty}^\infty"," ",R"\sin(x) \over x",R"\sin(x/3) \over x/3",'dx',R"=\pi")
+        tex2.next_to(tex1,DOWN,aligned_edge=LEFT)
+        self.add(tex1)
+        # blocks=TransformMatchingTex.matching_blocks(self,tex1,tex2,[],{})
+        # blocks[0][0].set_color(RED)
+        # blocks[0][1].set_color(BLUE)
+        # blocks[1][0].set_color(RED_A)
+        # blocks[1][1].set_color(BLUE_A)
+
+        self.play(TransformMatchingTex(tex1.copy(),tex2))
+       
 
 class ShowIntegrals(InteractiveScene):
     # add_axis_labels = True
@@ -122,9 +139,9 @@ class ShowIntegrals(InteractiveScene):
         hole.set_fill(BLACK, 1)
         hole.move_to(axes.c2p(0, 1))
 
-        zero_eq = OldTex(R"{\sin(0) \over 0} = ???")
+        zero_eq = Tex(R"{\sin(0) \over 0} = ???")
         zero_eq.next_to(hole, UR)
-        lim = OldTex(R"\lim_{x \to 0} {\sin(x) \over x} = 1")
+        lim = Tex(R"\lim_{x \to 0} {\sin(x) \over x} = 1")
         lim.move_to(zero_eq, LEFT)
         x_tracker = ValueTracker(1.5 * PI)
         get_x = x_tracker.get_value
@@ -304,7 +321,7 @@ class ShowIntegrals(InteractiveScene):
         return rects
 
     def get_integral(self, n):
-        return OldTex(
+        return Tex(
             R"\int_{-\infty}^\infty",
             R"{\sin(x) \over x}",
             *(
@@ -415,7 +432,8 @@ class WriteFullIntegrals(InteractiveScene):
         ints.center().to_corner(UL)
         for inter in ints:
             inter[-1].scale(1.5, about_edge=LEFT)
-
+        
+        # old_tex
         q_marks = OldTex("???", color=RED).scale(2)
         q_marks.next_to(ints[-1], RIGHT, buff=MED_LARGE_BUFF)
         correction = OldTex("- 0.0000000000462...").scale(1.25)
@@ -429,7 +447,8 @@ class WriteFullIntegrals(InteractiveScene):
         self.add(ints[0], ds)
         for i in range(len(ints) - 1):
             self.wait(2)
-            anims = [TransformMatchingTex(ints[i].copy(), ints[i + 1])]
+            a=ints[i].copy()
+            anims = [TransformMatchingTex(a, ints[i + 1])]
             if i < 6:
                 anims.append(ds.animate.increment_value(0.1))
             self.play(*anims)
