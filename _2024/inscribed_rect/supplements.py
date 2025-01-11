@@ -1,6 +1,18 @@
 from manim_imports_ext import *
 from _2024.inscribed_rect.helpers import *
+from custom.characters.pi_creature import PiCreature
 
+class testsvg(InteractiveScene):
+    def construct(self):
+        # init
+        frame=self.frame
+        # start
+        im=SVGMobject("D:\\Users\\grant\\3Blue1Brown Dropbox\\3Blue1Brown\\images\\pi_creature\\svg\\plain.svg")
+        im2=SVGMobject("D:\\Users\\grant\\3Blue1Brown Dropbox\\3Blue1Brown\\images\\pi_creature\\svg\\pondering.svg")
+        self.add(im)
+        self.play(ReplacementTransform(im,im2))
+        
+        
 
 class UnsolvedQuestion(TeacherStudentsScene):
     def construct(self):

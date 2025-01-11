@@ -166,11 +166,11 @@ class WaysToCombine(InteractiveScene):
             isolate=[",", "[", "]"]
         )
         seq1_tex, seq2_tex, sum_seq, prod_seq, conv_seq = seqs = VGroup(
-            OldTex(f"a = {list(seq1)}", **kw),
-            OldTex(f"b = {list(seq2)}", **kw),
-            OldTex(f"a + b = {list(seq1 + seq2)}", **kw),
-            OldTex(Rf"a \cdot b = {list(seq1 * seq2)}", **kw),
-            OldTex(Rf"a * b = {list(np.convolve(seq1, seq2))}", **kw),
+            Tex(f"a = {list(seq1)}", **kw),
+            Tex(f"b = {list(seq2)}", **kw),
+            Tex(f"a + b = {list(seq1 + seq2)}", **kw),
+            Tex(Rf"a \cdot b = {list(seq1 * seq2)}", **kw),
+            Tex(Rf"a * b = {list(np.convolve(seq1, seq2))}", **kw),
         )
         seqs.move_to(midpoint(ORIGIN, LEFT_SIDE))
         seq1_tex.match_y(axes1)

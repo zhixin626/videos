@@ -1,4 +1,5 @@
 import gensim
+import gensim.downloader as api
 import tiktoken
 from pathlib import Path
 
@@ -94,7 +95,7 @@ def get_word_to_vec_model(model_name="glove-wiki-gigaword-50"):
     filename = str(Path(DATA_DIR, model_name))
     if os.path.exists(filename):
         return gensim.models.keyedvectors.KeyedVectors.load(filename)
-    model = gensim.downloader.load(model_name)
+    model = api.load(model_name)
     model.save(filename)
     return model
 
@@ -267,7 +268,7 @@ class ImageTokens(InteractiveScene):
 
     def construct(self):
         # Add image
-        image = ImageMobject("SmallFluffCreature")  # Change
+        image = ImageMobject("kun")  # Change
         image.set_height(5)
         self.add(image)
 
@@ -727,6 +728,7 @@ class AmbientWordEmbedding(Word2VecScene):
 
         self.add(titles)
         self.add(arrow)
+        self.add(arrow_label)
 
         # Add words
         words = "All data in deep learning must be represented as vectors".split(" ")
@@ -749,10 +751,9 @@ class AmbientWordEmbedding(Word2VecScene):
             self.get_labeled_vector(
                 word,
                 coord,
-                stroke_width=2,
-                color=interpolate_color(BLUE_D, BLUE_A, random.random()),
+                color=interpolate_color(YELLOW_D, BLUE_A, random.random()),
                 func_name=None,
-                label_config=dict(font_size=24)
+                label_config=dict(font_size=24,stroke_width=1)
             )
             for word, coord in zip(words, coords)
         ))
@@ -772,7 +773,7 @@ class AmbientWordEmbedding(Word2VecScene):
             ))
             self.wait(0.5)
         self.play(FlashAround(arrow_label, time_width=1.5, run_time=3))
-        self.wait(15)
+        self.wait(5)
 
 
 class ThreeDSpaceExample(InteractiveScene):

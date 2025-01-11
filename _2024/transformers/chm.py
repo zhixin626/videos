@@ -1,4 +1,6 @@
 from manim_imports_ext import *
+from manim_imports_custom import *
+
 from _2024.transformers.generation import *
 from _2024.transformers.helpers import *
 from _2024.transformers.embedding import *
@@ -683,7 +685,58 @@ class SequentialProcessing(InteractiveScene):
 
 
 # Version 2
+class test_UnfoldPaper(InteractiveScene):
+    def construct(self):
+        # init
+        frame=self.frame
 
+        # start
+        ax=ThreeDAxes()
+        ax.add_axis_labels()
+        curve1=VMobject()
+        curve1.set_points_smoothly(np.array([[0,0,0],[2,0,0],[1,1,0],[3,3,0]]))
+        curve1.set_stroke(color=RED,opacity=1,width=1)
+        curve1.set_height(3)
+        curve1.set_width(2)
+        curve2=VMobject()
+        curve2.set_points_smoothly(np.array([[-1,0,0],[0,0,0],[1,0,0]]))
+        curve2.set_stroke(color=RED,opacity=1,width=1)
+        curve2.set_height(5)
+        curve2.scale(curve1.get_arc_length()/curve2.get_arc_length())
+        surface1=ParametricSurface(
+            lambda u,v:(*curve1.pfp(v)[:2],u),
+            u_range=(-3, 3),
+            v_range=(0.05, 0.95),
+            resolution=(2,100)
+            )
+        surface2=ParametricSurface(
+            lambda u,v:(*curve2.pfp(v)[:2],u),
+            u_range=(-3, 3),
+            v_range=(0.05, 0.95),
+            resolution=(2,100)
+            )
+        surface3=Surface(
+            u_range=(-curve1.get_arc_length()/2,curve1.get_arc_length()/2),
+            v_range=(-3, 3),resolution=(2,100))
+        # self.add(surface1)
+        frame.reorient(-14, 33, 0, (-0.07, 0.42, 0.12), 12.40)
+        self.add(curve1,ax)
+        self.add(surface1)
+        self.play(ShowCreation(surface1))
+        # self.play(Transform(surface1,surface2),run_time=3)
+        self.play(Transform(surface1,surface3),run_time=3)
+
+class test_transformer(SimpleAutogregression):
+    def construct(self):
+        # init
+        frame=self.frame
+        
+        # start
+        self.set_floor_plane("xz")
+        a=VPrism()
+        t=self.get_transformer_drawing()
+        self.add(t)
+        
 
 class PartialScript(SimpleAutogregression):
     machine_name = "Magic next\nword predictor"
@@ -1486,7 +1539,7 @@ class SerialProcessing(InteractiveScene):
     def construct(self):
         # Set up words
         words = self.get_words()
-        rects = get_piece_rectangles(words)
+        rects = get_piece_rectangles(words,leading_spaces=False)
 
         self.add(rects)
         self.add(words)
@@ -1573,6 +1626,28 @@ class ParallelProcessing(SerialProcessing):
         self.play(lines.animate.set_stroke(opacity=0.25))
         self.wait()
 
+class test_grpah(InteractiveScene):
+    def construct(self):
+        # init
+        frame=self.frame
+        # start
+        ax=ThreeDAxesCustom(width=FRAME_WIDTH-1,height=FRAME_HEIGHT-1,depth=8)
+        self.add(ax)
+        ax.add_coordinate_labels()
+        ax.add_axis_labels()
+        def func(x):
+            return ax.c2p(x,math.exp(-x**2/2),0)
+        def func2(x):
+            return ax.c2p(x,np.sin(1/x),0)
+        def func3(x):
+            return ax.c2p(x,-x*math.exp(-x**2/2),0)
+        curve=ParametricCurve(func,(-5,5,0.1))
+        curve3=ParametricCurve(func3,(-5,5,0.1))
+        curve3.set_color_by_gradient(BLUE,YELLOW)
+        # curve2=ParametricCurve(func2,(-5,5,0.01))
+        # self.add(curve2)
+        self.add(curve)
+        self.add(curve3)
 
 class ManyComputationsPerUnitTimeV2(InteractiveScene):
     def construct(self):
@@ -1582,10 +1657,12 @@ class ManyComputationsPerUnitTimeV2(InteractiveScene):
         label.next_to(box, UP)
         self.add(box)
         self.add(label)
+        self.play(box.animate.scale(1.2),run_time=1.2)
 
         comps = self.get_computations(box)
         self.add(comps)
         self.wait(3)
+        self.time
 
         # Place box into minute interval
         width = FRAME_WIDTH - 1

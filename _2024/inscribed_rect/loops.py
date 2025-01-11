@@ -93,7 +93,14 @@ class LoopScene(InteractiveScene):
 class StateThePuzzle(LoopScene):
     def construct(self):
         # Show the loop
-        loop = get_example_loop(4)
+
+        # pi=SVGMobject("example_loop3")
+        # pi.set_stroke(color=WHITE,width=5,opacity=1)
+        # pi.set_fill(color=WHITE,opacity=1)
+        # pi.scale(5)
+        # self.add(pi)
+
+        loop = get_example_loop(2)
         loop.set_height(7)
         loop.move_to(2 * RIGHT)
         curve_words = Text("Closed\nContinuous\nCurve", alignment="LEFT", font_size=72)
@@ -891,7 +898,7 @@ class ChangeTheSurface(ShowTheSurface):
             get_example_loop(1),
             get_example_loop(2),
             # get_example_loop(3),
-            SVGMobject("gingerbread_outline")[0]
+            SVGMobject("gingerbread_outline.svg")[0]
         )
         for loop in example_loops:
             loop.set_height(5)
@@ -1122,6 +1129,7 @@ class ParameterizeTheLoop(InteractiveScene):
         y_axis.set_width(interval.get_length())
         y_axis.rotate(90 * DEG)
         y_axis.add_numbers(direction=LEFT)
+        self.add(y_axis)
 
         y_axis.move_to(x_axis.n2p(0))
         y_axis.shift(0.25 * LEFT)

@@ -1,6 +1,6 @@
 directories:
   mirror_module_path: True
-  removed_mirror_prefix: "/Users/grant/cs/videos/"
+  removed_mirror_prefix: "D:\\a_ManimGL1.7.0\\videos"
   base: "/Users/grant/3Blue1Brown Dropbox/3Blue1Brown/"
   subdirs:
     raster_images: "images/raster"
@@ -24,7 +24,7 @@ text:
   font: "CMU Serif"
   alignment: "CENTER"
 tex:
-  template: "default"
+  template: "ctex"
 embed:
   autoreload: True
 ignore_manimlib_modules_on_reload: True

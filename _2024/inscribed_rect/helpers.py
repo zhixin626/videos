@@ -16,7 +16,7 @@ def get_loop(anchors, stroke_color=WHITE, stroke_width=3):
     return result
 
 
-def get_example_loop(index=1, stroke_color=WHITE, stroke_width=3, width=5):
+def get_example_loop(index=2, stroke_color=WHITE, stroke_width=3, width=5):
     result = SVGMobject(f"example_loop{index}").family_members_with_points()[0]
     result.set_width(width)
     result.set_stroke(stroke_color, stroke_width)

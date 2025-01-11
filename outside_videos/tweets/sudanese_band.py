@@ -46,8 +46,8 @@ def get_full_surface(band_func, x_range):
         SurfaceMesh(surface, normal_nudge=-1e-3),
     )
     bound = VGroup(
-        ParametricCurve(lambda t: band_func(x_range[0], t), (0, TAU)),
-        ParametricCurve(lambda t: band_func(x_range[1], t), (0, TAU)),
+        ParametricCurve(lambda t: band_func(x_range[0], t), (0, TAU,0.01)),
+        ParametricCurve(lambda t: band_func(x_range[1], t), (0, TAU,0.01)),
     )
     bound.set_stroke(RED, 3)
     bound.apply_depth_test()
@@ -72,6 +72,7 @@ class SudaneseBand(ThreeDScene):
     circle_on_xy_plane = True
 
     def construct(self):
+        # start
         frame = self.camera.frame
         frame.reorient(-45, 70)
         frame.add_updater(
@@ -113,6 +114,7 @@ class SudaneseBand(ThreeDScene):
 
 class SudaneseBandToKleinBottle(ThreeDScene):
     def construct(self):
+        # start
         frame = self.camera.frame
         frame.reorient(-70, 70)
         # frame.add_updater(
