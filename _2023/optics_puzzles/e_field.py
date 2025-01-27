@@ -77,7 +77,7 @@ class IntroduceEField(InteractiveScene):
             Text("""
                 How does the position
                 and motion of this...
-            """),
+            """,alignment="LEFT"),
             Text("influence this?"),
         )
         for q, charge, vect in zip(question, charges, [LEFT, RIGHT]):
@@ -107,7 +107,7 @@ class IntroduceEField(InteractiveScene):
         # Show force arrows
         def show_coulomb_force(arrow, charge1, charge2):
             root = charge2.get_center()
-            vect = 4 * coulomb_force(
+            vect = 2 * coulomb_force(
                 charge2.get_center()[np.newaxis, :],
                 charge1
             )[0]
@@ -235,9 +235,12 @@ class IntroduceEField(InteractiveScene):
         self.wait()
 
         # Show Coulomb's law vector field
+        from manim_imports_custom import ThreeDAxesCustom
+        ax=ThreeDAxesCustom()
+        self.add(ax)
         coulombs_law.add_background_rectangle()
         coulombs_law_title.add_background_rectangle()
-        field = CoulombField(charges[0], x_density=3.0, y_density=3.0)
+        field = CoulombField(charges[0],coordinate_system=ax,density=1)
         dots = DotCloud(field.sample_points, radius=0.025, color=RED)
         dots.make_3d()
 

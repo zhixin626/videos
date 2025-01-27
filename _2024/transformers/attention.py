@@ -6,6 +6,7 @@ from _2024.transformers.embedding import break_into_words
 from _2024.transformers.embedding import break_into_tokens
 from _2024.transformers.embedding import get_piece_rectangles
 
+from typing import Dict
 
 class AttentionPatterns(InteractiveScene):
     def construct(self):

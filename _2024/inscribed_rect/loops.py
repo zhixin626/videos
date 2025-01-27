@@ -3081,7 +3081,7 @@ class MusicalIntervalsAsPairs(InteractiveScene):
             self.add(key_labels[i])
             self.add(key_labels[j])
             self.wait(0.5)
-            # self.play_notes(i, j, 0.5)  # Only used for screen recording
+            self.play_notes(i, j, 0.5)  # Only used for screen recording
             self.remove(key_labels)
             keys.restore()
 

@@ -1,6 +1,8 @@
 from __future__ import annotations
-from manim_imports_ext import *
 
+from numpy import add
+from manim_imports_ext import *
+from manim_imports_custom import ThreeDAxesCustom
 
 def hsl_to_rgb(hsl):
     """
@@ -374,6 +376,14 @@ class DiffractionGratingScene(InteractiveScene):
         graph.set_stroke(color, stroke_width)
         return graph
 
+class test_svg(InteractiveScene):
+    def construct(self):
+        # init
+        frame=self.frame
+        # start
+        s1=SVGMobject('heart_shape2')
+        s1.set_stroke(color=RED,opacity=1,width=2)
+        self.add(s1)
 
 class LightExposingFilm(DiffractionGratingScene):
     def construct(self):
@@ -397,8 +407,9 @@ class LightExposingFilm(DiffractionGratingScene):
             result = np.zeros_like(points)
             result[:, 1] = wave_amp_tracker.get_value() * wave.wave_func(points)
             return result
-
-        linear_field = VectorField(field_func, sample_points=wave_line.get_points()[::4], max_vect_len=2.0)
+        ax=ThreeDAxesCustom()
+        # linear_field = VectorField(field_func,coordinate_system=ax,
+        #      max_vect_len=2.0,density=1)#sample_points=wave_line.get_points()[::4],
         linear_field.always.update_vectors()
         linear_field.set_stroke(WHITE, width=1.5, opacity=0.75)
 
@@ -592,7 +603,8 @@ class LightExposingFilm(DiffractionGratingScene):
             result[:, 1] = ref_amp * wave2.wave_func(points)
             return result
 
-        linear_field2 = VectorField(field_func2, sample_points=line2.get_points()[::4], max_vect_len=2.0)
+        # linear_field2 = VectorField(field_func2, 
+        #     coordinate_system=ax,max_vect_len=2.0,density=1)#sample_points=line2.get_points()[::4], 
         linear_field2.always.update_vectors()
         linear_field2.set_stroke(YELLOW, width=1.5, opacity=0.75)
 
@@ -1090,6 +1102,10 @@ class CreateZonePlate(DiffractionGratingScene):
     def construct(self):
         # Create object and reference wave
         frame = self.frame
+        from manim_imports_custom import ThreeDAxesCustom
+        ax=ThreeDAxesCustom()
+        ax.add_axis_labels()
+        self.add(ax)
         axes = ThreeDAxes()
         self.set_floor_plane("xz")
 
@@ -1100,9 +1116,12 @@ class CreateZonePlate(DiffractionGratingScene):
         ref_wave = self.get_plane_wave(direction=IN)
         ref_wave.set_opacity(0.75)
         ref_source = ref_wave.point_sources
+        self.add(ref_source)
+
         source_point = GlowDot(OUT, color=WHITE, radius=0.5)
         obj_wave = LightWaveSlice(source_point)
         obj_wave.set_decay_factor(0.7)
+        self.add(obj_wave)
 
         for wave in [obj_wave, ref_wave]:
             wave.set_width(wave_width)
@@ -1122,7 +1141,7 @@ class CreateZonePlate(DiffractionGratingScene):
         # Add film
         plate = Rectangle(16, 9)
         plate.set_height(4)
-        plate.set_stroke(WHITE, 1, 0.5).set_fill(BLACK, 0.0)
+        plate.set_stroke(WHITE, 3, 0.5).set_fill(BLACK, 0.0)
         plate.set_shading(0.1, 0.1, 0)
         plate.apply_depth_test()
         plate_body = Square3D()

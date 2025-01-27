@@ -47,6 +47,17 @@ class GlintArrow(InteractiveScene):
             VShowPassingFlash(circle, time_width=1.5, time_span=(0.5, 1.5)),
         )
         self.wait()
+        
+        # test2
+        text=Text('Color')
+        self.add(text)
+        c=Circle()
+        self.add(c)
+        self.play(VShowPassingFlash(c,time_width=0.2))
+        self.play(ShowPassingFlash(c))
+        self.play(ShowCreationThenFadeAround(text))
+        self.play(ShowPassingFlashAround(text))
+        self.play(ShowCreationThenDestructionAround(text))
 
 
 class WriteHologram(InteractiveScene):
