@@ -1,7 +1,7 @@
 directories:
   mirror_module_path: True
   removed_mirror_prefix: "D:/3b1b_videos"
-  base: "C:/Users/zhixin/OneDrive/3Blue1Brown/"
+  base: "D:/Grant"
   subdirs:
     raster_images: "images/raster"
     vector_images: "images/vector"
