@@ -1,1 +1,1 @@
- Get-ChildItem -Path * -Recurse -File | Select-String -Pattern "desired claim"
+ Get-ChildItem -Path * -Recurse -File | Select-String -Pattern "every two_note"
