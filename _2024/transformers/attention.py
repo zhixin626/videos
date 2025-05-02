@@ -1856,7 +1856,7 @@ class DescribeAttentionEquation(InteractiveScene):
         self.add(image)
 
         # Add equation
-        equation = Tex(R"\text{Attention}(Q, K, V) = \text{softmax}({QK^T \over \sqrt{d_k}}) V")
+        equation = Tex(R"\text{Attention}(Q, K, V) = \text{softmax}\left({K^T Q \over \sqrt{d_k}}\right) V")
         equation.set_height(1.06929)
         equation.move_to([-0.41406, 1.177, 0])
 
@@ -1904,7 +1904,7 @@ class DescribeAttentionEquation(InteractiveScene):
         self.wait()
 
         # Highlight numerator
-        num_rect = SurroundingRectangle(equation["QK^T"])
+        num_rect = SurroundingRectangle(equation["K^T Q"])
         num_rect.set_stroke(BLUE, 2)
 
         self.play(
@@ -2014,7 +2014,7 @@ class DescribeAttentionEquation(InteractiveScene):
             VGroup(dot_prod.target, denom).scale(0.75)
             denoms.add(denom)
 
-        self.play(num_rect.animate.surround(equation[R"QK^T \over \sqrt{d_k}"]))
+        self.play(num_rect.animate.surround(equation[R"K^T Q \over \sqrt{d_k}"]))
         self.play(
             LaggedStartMap(MoveToTarget, dot_prods, lag_ratio=0.05, time_span=(1, 3)),
             LaggedStart(
@@ -2028,7 +2028,7 @@ class DescribeAttentionEquation(InteractiveScene):
 
         # Highlight softmax
         self.play(
-            num_rect.animate.surround(equation[R"\text{softmax}({QK^T \over \sqrt{d_k}})"])
+            num_rect.animate.surround(equation[R"\text{softmax}\left({K^T Q \over \sqrt{d_k}}\right)"])
         )
         self.wait()
 
