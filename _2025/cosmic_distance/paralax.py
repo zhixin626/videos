@@ -96,8 +96,8 @@ class ParalxInSolarSystem(InteractiveScene):
         orbit.rotate(-30 * DEG)
         orbit.add_updater(lambda m, dt: m.rotate(10 * dt * DEG))
         orbit.set_stroke(flat=False)
-        orbit.set_anti_alias_width(5)
-        orbit.apply_depth_test()
+        orbit.apply_depth_test(anti_alias_width=3)
+        # orbit.set_anti_alias_width(3)
 
         earth.add_updater(lambda m: m.move_to(orbit.get_end()))
         # earth.add_updater(lambda m, dt: m.rotate(2 * TAU * dt, axis=earth_axis))
@@ -632,6 +632,7 @@ class NearbyStars(InteractiveScene):
         sun.center()
         orbit = Circle(radius=orbit_radius)
         orbit.set_stroke(BLUE, (0, 4))
+        orbit.set_anti_alias_width(4)
         earth_glow = GlowDot(color=BLUE)
         earth_glow.f_always.move_to(orbit.get_start)
 

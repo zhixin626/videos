@@ -136,21 +136,23 @@ class ShadowScene(ThreeDScene):
     num_reorientations = 10
     plane_dims = (20, 20)
     plane_style = {
-        "stroke_width": 0,
+        "stroke_width": 0.1,
         "fill_color": GREY_A,
         "fill_opacity": 0.5,
-        "gloss": 0.5,
-        "shadow": 0.2,
+        "shading":(0,0.5,0.2)
+        # "gloss": 0.5,
+        # "shadow": 0.2,
     }
     limited_plane_extension = 0
     object_style = {
         "stroke_color": WHITE,
-        "stroke_width": 0.5,
+        "stroke_width": 0,
         "fill_color": BLUE_E,
         "fill_opacity": 0.7,
-        "reflectiveness": 0.3,
-        "gloss": 0.1,
-        "shadow": 0.5,
+        "shading":(0.3,0.1,0.5)
+        # "reflectiveness": 0.3,
+        # "gloss": 0.1,
+        # "shadow": 0.5,
     }
     inf_light = False
     glow_radius = 10
@@ -207,7 +209,8 @@ class ShadowScene(ThreeDScene):
         cube.set_style(**self.object_style)
         # Wrap in group so that strokes and fills
         # are rendered in separate passes
-        cube = self.cube = Group(*cube)
+        # cube = self.cube = Group(*cube)
+        self.cube=cube
         cube.add_updater(lambda m: self.sort_to_camera(m))
         return cube
 
@@ -418,7 +421,7 @@ class IntroduceShadow(ShadowScene):
         self.play(
             FadeIn(question, UP),
             *(
-                LaggedStartMap(DrawBorderThenFill, mob, lag_ratio=0.1, run_time=3)
+                LaggedStartMap(Write, mob, lag_ratio=0.1, run_time=3)
                 for mob in (cube, shadow)
             )
         )

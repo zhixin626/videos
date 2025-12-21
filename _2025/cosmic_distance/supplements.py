@@ -116,6 +116,7 @@ class AskingTaoForTopics(InteractiveScene):
 
 class TableOfContents(InteractiveScene):
     def construct(self):
+        # start
         items = VGroup(
             Text("Rung 1: Earth"),
             Text("Rung 2: Moon"),

@@ -1,1 +1,1 @@
- Get-ChildItem -Path * -Recurse -File | Select-String -Pattern "every two_note"
+ Get-ChildItem -Path * -Recurse -File | Select-String -Pattern "find the average area of a cube"
