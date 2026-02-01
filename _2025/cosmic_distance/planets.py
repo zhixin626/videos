@@ -76,10 +76,10 @@ def get_planet(name, radius=1.0):
     return planet
 
 
-def get_celestial_sphere(radius=1000, constellation_opacity=0.1):
+def get_celestial_sphere(radius=1000, constellation_opacity=0.1,t1="hiptyc_2020_8k",t2="constellation_figures"):
     sphere = Group(
-        TexturedSurface(Sphere(radius=radius, clockwise=True), "hiptyc_2020_8k"),
-        TexturedSurface(Sphere(radius=0.99 * radius, clockwise=True), "constellation_figures"),
+        TexturedSurface(Sphere(radius=radius, clockwise=True), t1),
+        TexturedSurface(Sphere(radius=0.99 * radius, clockwise=True), t2),
     )
     sphere.set_shading(0, 0, 0)
     sphere[1].set_opacity(constellation_opacity)
@@ -108,12 +108,18 @@ class PerspectivesOnEarth(InteractiveScene):
         conversion_factor = 1.0 / EARTH_RADIUS
 
         earth = get_earth(radius=EARTH_RADIUS * conversion_factor)
-        earth.rotate(-EARTH_TILT_ANGLE, UP)
+        ax=ThreeDAxes()
+        ax.add_axis_labels()
         earth_axis = rotate_vector(OUT, -EARTH_TILT_ANGLE, UP)
+        axis=Vector(earth_axis)
+        self.frame.reorient(1, 21, 0, (0.31, 0.45, -0.07), 4.30)
+        self.add(earth)
+        self.add(axis)
+        self.add(ax)
+        earth.rotate(-EARTH_TILT_ANGLE, UP)
 
         earth.add_updater(lambda m, dt: m.rotate(dt * 10 * DEG, axis=earth_axis))
-
-        self.add(earth)
+        self.wait(5)
 
         # Clearly show the size of the earth
         brace = Brace(earth, LEFT)
@@ -300,6 +306,11 @@ class SizeOfEarthRenewed(InteractiveScene):
         earth_group.rotate(147 * DEG, UP)
         earth_group.rotate(-EARTH_TILT_ANGLE, OUT)
 
+        ax=ThreeDAxes()
+        ax.add_axis_labels()
+        self.add(ax)
+        axis=Vector(earth_axis)
+        self.add(axis)
         self.add(earth)
 
         # Unflatten earth
@@ -315,6 +326,7 @@ class SizeOfEarthRenewed(InteractiveScene):
             Restore(earth),
             run_time=3,
         )
+
 
         # Add rays from the sun
         sun = GlowDot(100 * RIGHT, radius=1)
@@ -546,10 +558,10 @@ class AlBiruniEarthMeasurement(InteractiveScene):
         earth.set_stroke(WHITE, 3)
         earth.rotate(90 * DEG)
 
-        earth_pattern = SVGMobject("earth")
-        earth_pattern.rotate(90 * DEG)
-        earth_pattern.replace(earth)
-        earth_pattern.set_fill(Color(hsl=(0.23, 0.5, 0.2)), 1)
+        # earth_pattern = SVGMobject("earth")
+        # earth_pattern.rotate(90 * DEG)
+        # earth_pattern.replace(earth)
+        # earth_pattern.set_fill(Color(hsl=(0.23, 0.5, 0.2)), 1)
 
         mountain_tip = earth.get_top() + height * UP
         mountain = Polyline(
@@ -558,7 +570,7 @@ class AlBiruniEarthMeasurement(InteractiveScene):
         mountain.set_stroke(GREY_B, 4)
 
         self.add(earth)
-        self.add(earth_pattern)
+        # self.add(earth_pattern)
         self.add(mountain)
 
         # Show line of sight
@@ -597,7 +609,7 @@ class AlBiruniEarthMeasurement(InteractiveScene):
         R_label.next_to(radius_line.get_center(), DR, buff=0.05)
 
         self.play(
-            earth_pattern.animate.set_fill(opacity=0.5),
+            # earth_pattern.animate.set_fill(opacity=0.5),
             earth.animate.set_fill(opacity=0.2),
             ShowCreation(radius_line),
             Write(R_label),
@@ -876,11 +888,15 @@ class PenumbraAndUmbra(InteractiveScene):
         sun.move_to(7 * LEFT)
 
         earth = get_earth(radius=0.7)
-        earth.rotate(90 * DEG, LEFT).rotate(EARTH_TILT_ANGLE, OUT)
+        earth.rotate(90 * DEG, LEFT)
+        earth.rotate(EARTH_TILT_ANGLE, OUT)
         earth.move_to(2 * RIGHT)
 
         light_source.move_to(sun)
         self.add(sun, earth)
+        ax=ThreeDAxes()
+        ax.add_axis_labels()
+        self.add(ax)
 
         # Add shadows
         umbra, penumbra, umbral_lines, penumbral_lines = shadow_group = self.get_umbral_lines(sun[0], earth)
@@ -2247,7 +2263,8 @@ class KeplersMethod(InteractiveScene):
         self.add(mars_glow)
 
         # Add celestial sphere
-        celestial_sphere = get_celestial_sphere()
+        celestial_sphere = get_celestial_sphere(constellation_opacity=0.15,
+            t1="hiptyc_2020_8k")
         celestial_sphere.set_z_index(-2)
         celestial_sphere.rotate(170 * DEG)
         self.add(celestial_sphere)
@@ -2356,7 +2373,7 @@ class KeplersMethod(InteractiveScene):
         pin.rotate(40 * DEG, UP)
         pin.set_fill(GREY_E, 1)
         pin.set_shading(0.5, 0.25, 0)
-        pin.rotate(10 * DEG)
+        pin.rotate(20 * DEG)
         pin.move_to(mars.get_center(), DR)
 
         earth_orbit.set_shape(5.2, 5.0)
@@ -2655,7 +2672,7 @@ class ShowCreationOfAllOrbits(KeplersMethod):
         # Add all orbits (Copied largely from NearestPlanets)
         frame = self.frame
         sun = get_sun(radius=0.02, big_glow_ratio=20).center()
-        celestial_sphere = get_celestial_sphere(constellation_opacity=0.01)
+        celestial_sphere = get_celestial_sphere(1000,constellation_opacity=0.1)
 
         self.add(celestial_sphere)
         self.add(sun)

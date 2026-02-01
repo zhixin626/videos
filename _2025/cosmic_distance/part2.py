@@ -822,7 +822,7 @@ class MeasuringNearbyStars(InteractiveScene):
         # Add the stars
         n_stars = 10000
         n_shown_stars = 1000
-        data_file = 'D:/Grant/HYG_Data.gz'
+        data_file = "D:/3b1b_videos/_2025/cosmic_distance/data/HYG_Data.gz"
         full_stellar_data, df = self.read_hyg_data(data_file)
 
         random.shuffle(full_stellar_data)
@@ -1092,6 +1092,7 @@ class WriteHarvardComputer(InteractiveScene):
 class LineToDistantStar(InteractiveScene):
     def construct(self):
         # Add Galaxy
+
         path = os.path.join(self.file_writer.get_output_file_rootname().parent, "GalaxyStill.png")
         galaxy = ImageMobject(path)
         galaxy.set_height(FRAME_HEIGHT)
@@ -1124,7 +1125,7 @@ class LineToDistantStar(InteractiveScene):
 class SolarSpectrum(InteractiveScene):
     def construct(self):
         # Get data
-        data_file = '/Users/grant/3Blue1Brown Dropbox/3Blue1Brown/videos/2025/cosmic_distance/Data/solar_spectrum.csv'
+        data_file = "D:/3b1b_videos/_2025/cosmic_distance/data/solar_spectrum.csv"
         self.spectral_cmap = colormaps.get_cmap("Spectral")
         data = np.loadtxt(data_file, delimiter=',')
 
@@ -1303,11 +1304,11 @@ class GalacticSurveyData(InteractiveScene):
     def construct(self):
         # Gather data
         frame = self.frame
-        data_file = '/Users/grant/3Blue1Brown Dropbox/3Blue1Brown/videos/2025/cosmic_distance/Data/galactic_data.csv'
+        data_file = 'D:/3b1b_videos/_2025/cosmic_distance/Data/galactic_data.csv'
         # Columns are 'objID, ra, dec, redshift, distance_mpc'
         data = np.loadtxt(data_file, delimiter=',', skiprows=2)
-        right_ascension = data[:, 1]
-        declination = data[:, 2]
+        right_ascension = data[:, 1] # ra（ 赤经，deg）
+        declination = data[:, 2]     # dec（赤纬，deg）
         distance = data[:, 4]
 
         cos_ra = np.cos(right_ascension * DEG)
@@ -1323,7 +1324,7 @@ class GalacticSurveyData(InteractiveScene):
         dots.get_width()
         dots.get_height()
         dots.set_color(WHITE)
-        dots.set_glow_factor(0.5)
+        dots.set_glow_factor(0.1)
 
         dots.clear_updaters()
         radii = np.random.random(len(distance))**2
@@ -1342,27 +1343,27 @@ class GalacticSurveyData(InteractiveScene):
         self.play(
             frame.animate.reorient(-12, 129, 0, (-18.76, 7.73, -104.01), 439.75),
             rad_factor.animate.set_value(0.0025),
-            run_time=12
+            run_time=5
         )
         self.wait()
         self.play(
             frame.animate.reorient(-115, 86, 0, ORIGIN, 1200),
             rad_factor.animate.set_value(0.002),
-            run_time=10
+            run_time=5
         )
         self.play(
             frame.animate.reorient(107, 87, 0),
-            run_time=15,
+            run_time=5,
         )
         self.play(
             frame.animate.reorient(17, 100, 0, (-69.76, -40.26, -81.8), 186.35),
             rad_factor.animate.set_value(0.003),
-            run_time=10,
+            run_time=5,
         )
         self.play(
             frame.animate.reorient(-84, 85, 0, ORIGIN, 1100),
             rad_factor.animate.set_value(0.002),
-            run_time=10,
+            run_time=5,
         )
 
 

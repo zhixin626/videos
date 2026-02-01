@@ -486,7 +486,7 @@ class WeightMatrix(DecimalMatrix):
     ):
         if values is not None:
             shape = values.shape
-        self.shape = shape
+        # self.shape = shape
         self.value_range = value_range
         self.low_positive_color = low_positive_color
         self.high_positive_color = high_positive_color
